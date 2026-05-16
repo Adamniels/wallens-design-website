@@ -1,0 +1,147 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens */
+:root {
+  --color-forest:       #314837;
+  --color-forest-light: #3d5a45;
+  --color-forest-dark:  #243428;
+
+  --color-gold:         #bf9f4c;
+  --color-gold-light:   #d4b86a;
+  --color-gold-dark:    #a07f30;
+
+  --color-cream:        #f7f4ef;
+  --color-cream-dark:   #ede9e0;
+  --color-sand:         #e8e0d0;
+  --color-sand-dark:    #d4c9b4;
+
+  --color-charcoal:     #2a2a2a;
+  --color-white:        #ffffff;
+
+  --font-serif:         var(--font-cormorant), Georgia, serif;
+  --font-sans:          var(--font-inter), system-ui, sans-serif;
+
+  --transition-base:    0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-slow:    0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Base resets */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-charcoal);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+p {
+  max-width: 68ch;
+}
+
+@layer utilities {
+  /* Gold accent line that animates in on scroll */
+  .gold-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .gold-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 1px;
+    background-color: var(--color-gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .gold-underline.visible::after,
+  .gold-underline:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Consistent page gutter */
+  .page-container {
+    width: 100%;
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .page-container {
+      padding-left: 3rem;
+      padding-right: 3rem;
+    }
+  }
+
+  @media (min-width: 1280px) {
+    .page-container {
+      padding-left: 4rem;
+      padding-right: 4rem;
+    }
+  }
+
+  /* Piece status badges */
+  .badge-available {
+    background-color: #e8f0ea;
+    color: var(--color-forest);
+    border: 1px solid var(--color-forest-light);
+  }
+  .badge-sold {
+    background-color: #f0e8e8;
+    color: #7a3030;
+    border: 1px solid #c08080;
+  }
+  .badge-commission {
+    background-color: #f5f0e4;
+    color: var(--color-gold-dark);
+    border: 1px solid var(--color-gold);
+  }
+
+}
+
+/* GSAP initial states — hero items start invisible so there's no flash
+   before the entrance animation runs. Scroll-triggered elements are handled
+   entirely by GSAP (immediateRender) so no CSS needed for those. */
+[data-animate="hero-item"],
+[data-animate="hero-lines"] {
+  opacity: 0;
+}
+
+/* yet-another-react-lightbox brand overrides */
+.yarl__root {
+  --yarl__color_backdrop: rgba(30, 30, 28, 0.97);
+  --yarl__color_button: rgba(247, 244, 239, 0.5);
+  --yarl__color_button_active: #bf9f4c;
+  --yarl__slide_captions_container_background: transparent;
+}
+.yarl__button {
+  filter: none;
+}
+
+
+/* Keep Sanity Studio styles isolated */
+#sanity-studio-portal * {
+  font-family: unset;
+}
