@@ -40,7 +40,7 @@ export async function generateMetadata({
 
   return {
     title,
-    description: `${title} — handcrafted ${piece.category} by SM Struktur.`,
+    description: `${title} — handcrafted ${piece.category} by Wallens Design.`,
     openGraph: {
       images: [
         urlFor(piece.heroImage).width(1200).height(630).fit("crop").url(),
@@ -189,6 +189,24 @@ export default async function PieceDetailPage({
                 </div>
               )}
 
+              {piece.gemstones && piece.gemstones.length > 0 && (
+                <div>
+                  <p className="font-sans text-xs tracking-widest uppercase text-charcoal/40 mb-3">
+                    {tr.piece.gemstones}
+                  </p>
+                  <div className="flex flex-wrap gap-2">
+                    {piece.gemstones.map((g) => (
+                      <span
+                        key={g}
+                        className="font-sans text-xs px-3 py-1.5 bg-cream border border-sand text-charcoal/70"
+                      >
+                        {g}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {hasDimensions && (
                 <div>
                   <p className="font-sans text-xs tracking-widest uppercase text-charcoal/40 mb-3">
@@ -199,19 +217,19 @@ export default async function PieceDetailPage({
                       {piece.dimensions!.height && (
                         <tr className="border-b border-sand">
                           <td className="py-2 text-charcoal/40">{tr.piece.height}</td>
-                          <td className="py-2 text-right">{piece.dimensions!.height} cm</td>
+                          <td className="py-2 text-right">{piece.dimensions!.height} mm</td>
                         </tr>
                       )}
                       {piece.dimensions!.width && (
                         <tr className="border-b border-sand">
                           <td className="py-2 text-charcoal/40">{tr.piece.width}</td>
-                          <td className="py-2 text-right">{piece.dimensions!.width} cm</td>
+                          <td className="py-2 text-right">{piece.dimensions!.width} mm</td>
                         </tr>
                       )}
                       {piece.dimensions!.depth && (
                         <tr className="border-b border-sand">
                           <td className="py-2 text-charcoal/40">{tr.piece.depth}</td>
-                          <td className="py-2 text-right">{piece.dimensions!.depth} cm</td>
+                          <td className="py-2 text-right">{piece.dimensions!.depth} mm</td>
                         </tr>
                       )}
                     </tbody>
@@ -221,6 +239,15 @@ export default async function PieceDetailPage({
                       {piece.dimensions!.note}
                     </p>
                   )}
+                </div>
+              )}
+
+              {piece.weightGrams && (
+                <div>
+                  <p className="font-sans text-xs tracking-widest uppercase text-charcoal/40 mb-1">
+                    {tr.piece.weight}
+                  </p>
+                  <p className="font-sans text-sm text-charcoal/70">{piece.weightGrams} g</p>
                 </div>
               )}
 

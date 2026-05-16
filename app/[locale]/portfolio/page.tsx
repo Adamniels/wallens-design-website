@@ -19,8 +19,8 @@ export async function generateMetadata({
     title: tr.portfolio.eyebrow,
     description:
       locale === "sv"
-        ? "En samling handgjorda möbler och skräddarsytt träarbete — varje objekt byggt med intention."
-        : "A collection of handcrafted furniture and bespoke woodwork — each piece built with intention.",
+        ? "En kollektion handgjorda smycken och specialbeställningar — varje piece skapad med omsorg och avsikt."
+        : "A collection of handcrafted jewellery and bespoke commissions — each piece made with intention.",
   };
 }
 

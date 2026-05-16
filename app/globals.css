@@ -2,22 +2,24 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Design tokens */
+/* Design tokens — jewelry palette */
 :root {
-  --color-forest:       #314837;
-  --color-forest-light: #3d5a45;
-  --color-forest-dark:  #243428;
+  --color-forest:       #1B1B1B;
+  --color-forest-light: #3A3A3A;
+  --color-forest-dark:  #111111;
 
-  --color-gold:         #bf9f4c;
-  --color-gold-light:   #d4b86a;
-  --color-gold-dark:    #a07f30;
+  --color-gold:         #C5A57A;
+  --color-gold-light:   #D4B896;
+  --color-gold-dark:    #A8855C;
 
-  --color-cream:        #f7f4ef;
-  --color-cream-dark:   #ede9e0;
-  --color-sand:         #e8e0d0;
-  --color-sand-dark:    #d4c9b4;
+  --color-cream:        #F5F2ED;
+  --color-cream-dark:   #EAE5DC;
+  --color-sand:         #DDD2C3;
+  --color-sand-dark:    #C9BBAA;
 
-  --color-charcoal:     #2a2a2a;
+  --color-charcoal:     #1B1B1B;
+  --color-silver-grey:  #BCC1C6;
+  --color-dusty-coral:  #B98576;
   --color-white:        #ffffff;
 
   --font-serif:         var(--font-cormorant), Georgia, serif;
@@ -104,17 +106,17 @@ p {
 
   /* Piece status badges */
   .badge-available {
-    background-color: #e8f0ea;
-    color: var(--color-forest);
-    border: 1px solid var(--color-forest-light);
+    background-color: #F0EDE8;
+    color: var(--color-charcoal);
+    border: 1px solid var(--color-sand);
   }
   .badge-sold {
-    background-color: #f0e8e8;
+    background-color: #EDE8E5;
     color: #7a3030;
     border: 1px solid #c08080;
   }
   .badge-commission {
-    background-color: #f5f0e4;
+    background-color: #F7F3EE;
     color: var(--color-gold-dark);
     border: 1px solid var(--color-gold);
   }
@@ -133,7 +135,7 @@ p {
 .yarl__root {
   --yarl__color_backdrop: rgba(30, 30, 28, 0.97);
   --yarl__color_button: rgba(247, 244, 239, 0.5);
-  --yarl__color_button_active: #bf9f4c;
+  --yarl__color_button_active: #C5A57A;
   --yarl__slide_captions_container_background: transparent;
 }
 .yarl__button {

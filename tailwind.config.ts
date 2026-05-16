@@ -10,29 +10,32 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Brand palette
+        // Brand palette — jewelry
+        // "forest" kept as alias for Charcoal Black so all existing class names work unchanged
         forest: {
-          DEFAULT: "#314837",
-          light: "#3d5a45",
-          dark: "#243428",
+          DEFAULT: "#1B1B1B",
+          light: "#3A3A3A",
+          dark: "#111111",
         },
         gold: {
-          DEFAULT: "#bf9f4c",
-          light: "#d4b86a",
-          dark: "#a07f30",
+          DEFAULT: "#C5A57A",
+          light: "#D4B896",
+          dark: "#A8855C",
         },
         cream: {
-          DEFAULT: "#f7f4ef",
-          dark: "#ede9e0",
+          DEFAULT: "#F5F2ED",
+          dark: "#EAE5DC",
         },
         sand: {
-          DEFAULT: "#e8e0d0",
-          dark: "#d4c9b4",
+          DEFAULT: "#DDD2C3",
+          dark: "#C9BBAA",
         },
         charcoal: {
-          DEFAULT: "#2a2a2a",
-          light: "#444444",
+          DEFAULT: "#1B1B1B",
+          light: "#3A3A3A",
         },
+        "silver-grey": "#BCC1C6",
+        "dusty-coral": "#B98576",
       },
       fontFamily: {
         serif: ["var(--font-cormorant)", "Georgia", "serif"],

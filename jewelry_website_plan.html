@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Georgia', serif;
+    background: #F5F2ED;
+    color: #1B1B1B;
+    padding: 24px;
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .palette {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 28px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .swatch {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .swatch-box {
+    width: 52px;
+    height: 52px;
+    border-radius: 6px;
+  }
+  .swatch span {
+    font-family: 'Courier New', monospace;
+    font-size: 10px;
+    color: #3A3A3A;
+  }
+  .swatch .swatch-name {
+    font-family: 'Arial', sans-serif;
+    font-size: 10px;
+    color: #BCC1C6;
+  }
+  .section-title {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #C5A57A;
+    font-family: 'Arial', sans-serif;
+    font-weight: 600;
+    margin-bottom: 10px;
+    margin-top: 28px;
+  }
+  .card {
+    background: white;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+    border-left: 4px solid #1B1B1B;
+  }
+  .card.gold {
+    border-left-color: #C5A57A;
+  }
+  .card.coral {
+    border-left-color: #B98576;
+  }
+  .card h3 {
+    font-size: 15px;
+    color: #1B1B1B;
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .card.gold h3 { color: #9a7c55; }
+  .card.coral h3 { color: #B98576; }
+  .card p {
+    font-size: 13px;
+    color: #3A3A3A;
+    line-height: 1.6;
+    font-family: Arial, sans-serif;
+  }
+  .card .tag {
+    display: inline-block;
+    background: #1B1B1B;
+    color: white;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+    margin-right: 4px;
+    margin-top: 8px;
+    letter-spacing: 0.5px;
+  }
+  .card.gold .tag { background: #C5A57A; }
+  .card.coral .tag { background: #B98576; }
+  .card .tag.light {
+    background: #DDD2C3;
+    color: #1B1B1B;
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .three-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+  }
+  .page-map {
+    background: white;
+    border-radius: 8px;
+    padding: 18px 20px;
+    margin-bottom: 12px;
+  }
+  .page-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 10px 0;
+    border-bottom: 1px solid #DDD2C3;
+  }
+  .page-row:last-child { border-bottom: none; }
+  .page-num {
+    background: #1B1B1B;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .page-info h4 {
+    font-size: 14px;
+    color: #1B1B1B;
+    margin-bottom: 4px;
+  }
+  .page-info p {
+    font-size: 12px;
+    color: #3A3A3A;
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+  }
+  .anim-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px solid #DDD2C3;
+  }
+  .anim-row:last-child { border-bottom: none; }
+  .anim-icon {
+    width: 32px;
+    height: 32px;
+    background: #DDD2C3;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .anim-info h4 {
+    font-size: 13px;
+    color: #1B1B1B;
+    font-family: Arial, sans-serif;
+    font-weight: 600;
+  }
+  .anim-info p {
+    font-size: 11px;
+    color: #BCC1C6;
+    font-family: Arial, sans-serif;
+  }
+  .stack-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #DDD2C3;
+  }
+  .stack-item:last-child { border-bottom: none; }
+  .stack-dot {
+    width: 10px;
+    height: 10px;
+    background: #C5A57A;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .stack-info h4 {
+    font-size: 13px;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    color: #1B1B1B;
+  }
+  .stack-info p {
+    font-size: 12px;
+    color: #3A3A3A;
+    font-family: Arial, sans-serif;
+  }
+  h1 {
+    font-size: 22px;
+    color: #1B1B1B;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    font-size: 13px;
+    color: #BCC1C6;
+    font-family: Arial, sans-serif;
+    margin-bottom: 20px;
+  }
+  .phase-badge {
+    display: inline-block;
+    background: #B98576;
+    color: white;
+    font-size: 10px;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+    letter-spacing: 0.5px;
+    margin-left: 8px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<h1>Fine Jewelry Website — Planning Document</h1>
+<p class="subtitle">Portfolio + Custom Orders site with Admin CMS &nbsp;·&nbsp; E-commerce phase to follow</p>
+
+<!-- Color Palette -->
+<div class="section-title">Color Palette</div>
+<div class="palette">
+  <div class="swatch">
+    <div class="swatch-box" style="background:#F5F2ED; border:1px solid #DDD2C3;"></div>
+    <span>#F5F2ED</span>
+    <span class="swatch-name">Soft Ivory</span>
+  </div>
+  <div class="swatch">
+    <div class="swatch-box" style="background:#DDD2C3;"></div>
+    <span>#DDD2C3</span>
+    <span class="swatch-name">Sand Beige</span>
+  </div>
+  <div class="swatch">
+    <div class="swatch-box" style="background:#1B1B1B;"></div>
+    <span>#1B1B1B</span>
+    <span class="swatch-name">Charcoal Black</span>
+  </div>
+  <div class="swatch">
+    <div class="swatch-box" style="background:#3A3A3A;"></div>
+    <span>#3A3A3A</span>
+    <span class="swatch-name">Deep Graphite</span>
+  </div>
+  <div class="swatch">
+    <div class="swatch-box" style="background:#BCC1C6;"></div>
+    <span>#BCC1C6</span>
+    <span class="swatch-name">Silver Grey</span>
+  </div>
+  <div class="swatch">
+    <div class="swatch-box" style="background:#B98576;"></div>
+    <span>#B98576</span>
+    <span class="swatch-name">Dusty Coral</span>
+  </div>
+  <div class="swatch">
+    <div class="swatch-box" style="background:#C5A57A;"></div>
+    <span>#C5A57A</span>
+    <span class="swatch-name">Champagne Gold</span>
+  </div>
+</div>
+
+<!-- Typography -->
+<div class="section-title">Typography Direction</div>
+<div class="two-col">
+  <div class="card">
+    <h3>Headlines</h3>
+    <p>Cormorant Garamond — a refined, high-contrast serif. Gives weight and elegance to collection titles and section headers. Used large, with generous letter spacing. Feels luxurious without being loud.</p>
+    <span class="tag">Display</span><span class="tag">Serif</span>
+  </div>
+  <div class="card gold">
+    <h3>Body + UI</h3>
+    <p>DM Sans or Inter — a clean, neutral sans-serif. Used for descriptions, navigation, pricing, and admin UI. Keeps everything legible without competing with product photography.</p>
+    <span class="tag">Body</span><span class="tag">Sans-serif</span>
+  </div>
+</div>
+
+<!-- Site Structure -->
+<div class="section-title">Site Structure / Pages</div>
+<div class="page-map">
+  <div class="page-row">
+    <div class="page-num">1</div>
+    <div class="page-info">
+      <h4>Home</h4>
+      <p>Full-bleed hero with a large serif headline and a single CTA such as "Explore the Collection". Below: a curated three-piece feature section, a brief designer statement, and a custom order invitation block. Sets the tone of refined luxury from the first scroll.</p>
+    </div>
+  </div>
+  <div class="page-row">
+    <div class="page-num">2</div>
+    <div class="page-info">
+      <h4>Collection</h4>
+      <p>Editorial grid of all pieces. Each card shows the hero photo, title, material, and an Available or Sold badge. Filterable by category: Rings, Necklaces, Earrings, Bracelets, and Custom. Clicking a card opens the piece detail page.</p>
+    </div>
+  </div>
+  <div class="page-row">
+    <div class="page-num">3</div>
+    <div class="page-info">
+      <h4>Piece Detail</h4>
+      <p>Full-width photography, piece title, materials, gemstones, description, dimensions, availability status, and price. A prominent "Inquire About This Piece" button leads to an inline contact form. E-commerce add-to-cart functionality will be added in the next phase.</p>
+    </div>
+  </div>
+  <div class="page-row">
+    <div class="page-num">4</div>
+    <div class="page-info">
+      <h4>Custom Orders</h4>
+      <p>Explains how a bespoke jewelry commission works — the consultation process, materials sourcing, timeline, and what to expect at each stage. Warm, editorial layout. Ends with an inquiry CTA so prospective clients can start the conversation.</p>
+    </div>
+  </div>
+  <div class="page-row">
+    <div class="page-num">5</div>
+    <div class="page-info">
+      <h4>About</h4>
+      <p>The designer's story — background, philosophy, studio, and craft. Feels personal and unhurried. One large portrait or studio photo, a few paragraphs. Fully editable from the admin without touching code.</p>
+    </div>
+  </div>
+  <div class="page-row">
+    <div class="page-num">6</div>
+    <div class="page-info">
+      <h4>Contact</h4>
+      <p>Clean inquiry form with fields for name, email, piece of interest (linked or free text), and message. Submissions appear in the admin panel and trigger an email notification to the owner.</p>
+    </div>
+  </div>
+  <div class="page-row">
+    <div class="page-num" style="background:#C5A57A;">A</div>
+    <div class="page-info">
+      <h4>Admin Studio (private route)</h4>
+      <p>A CMS interface at /studio. Add and edit pieces — photos, title, description, price, materials, gemstones, status, and category. Edit the About page content. View and manage contact form submissions.</p>
+    </div>
+  </div>
+</div>
+
+<!-- E-commerce Note -->
+<div class="section-title">E-Commerce Phase <span class="phase-badge">Coming Next</span></div>
+<div class="page-map">
+  <div class="page-row">
+    <div class="page-num" style="background:#B98576;">S</div>
+    <div class="page-info">
+      <h4>Shop / Cart / Checkout</h4>
+      <p>In the second phase, the site will gain a full shopping experience. Each piece detail page gets an "Add to Cart" button. A cart drawer slides in from the right. Checkout will be handled via Stripe, keeping the experience seamless without leaving the site.</p>
+    </div>
+  </div>
+  <div class="page-row">
+    <div class="page-num" style="background:#B98576;">O</div>
+    <div class="page-info">
+      <h4>Order Management</h4>
+      <p>Order history and status tracking visible in the admin panel. Inventory management tied to piece availability badges. Email confirmations sent automatically to the customer and the owner on each purchase.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Scroll Animations -->
+<div class="section-title">Scroll Animations</div>
+<div class="page-map">
+  <div class="anim-row">
+    <div class="anim-icon">🖼</div>
+    <div class="anim-info">
+      <h4>Hero Parallax</h4>
+      <p>The hero image scrolls at a slower rate than the page, creating depth as the headline lifts away from the photo.</p>
+    </div>
+  </div>
+  <div class="anim-row">
+    <div class="anim-icon">✦</div>
+    <div class="anim-info">
+      <h4>Collection Card Reveal</h4>
+      <p>Jewelry cards fade and slide up as they enter the viewport, staggered slightly so they cascade in from left to right — like pieces being laid on a display cloth.</p>
+    </div>
+  </div>
+  <div class="anim-row">
+    <div class="anim-icon">◦</div>
+    <div class="anim-info">
+      <h4>Section Divider Draw</h4>
+      <p>A thin champagne gold line animates from left to right as a section header enters view, drawing attention before the content follows.</p>
+    </div>
+  </div>
+  <div class="anim-row">
+    <div class="anim-icon">📸</div>
+    <div class="anim-info">
+      <h4>Image Crop Reveal</h4>
+      <p>On piece detail pages, photos reveal themselves with a clipping mask that slides away — like lifting a velvet cover from a finished piece.</p>
+    </div>
+  </div>
+  <div class="anim-row">
+    <div class="anim-icon">✍</div>
+    <div class="anim-info">
+      <h4>Text Fade Up</h4>
+      <p>Body text and descriptions fade in gently from slightly below, so the page feels alive and considered without being distracting.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Tech Stack -->
+<div class="section-title">Recommended Tech Stack</div>
+<div class="page-map">
+  <div class="stack-item">
+    <div class="stack-dot"></div>
+    <div class="stack-info">
+      <h4>Next.js 14 (App Router)</h4>
+      <p>React framework with server-side rendering, image optimisation built in, and great performance out of the box. Industry standard for portfolio and commerce sites that need dynamic data.</p>
+    </div>
+  </div>
+  <div class="stack-item">
+    <div class="stack-dot"></div>
+    <div class="stack-info">
+      <h4>Sanity.io — CMS + Admin</h4>
+      <p>Gives the owner a polished, hosted admin studio at /studio. Manages pieces, photos, availability, categories, materials, and the About page content with no code required. Free tier is more than sufficient.</p>
+    </div>
+  </div>
+  <div class="stack-item">
+    <div class="stack-dot"></div>
+    <div class="stack-info">
+      <h4>GSAP (ScrollTrigger)</h4>
+      <p>The gold standard for scroll-based animations on the web. Handles all the parallax, reveals, and line draws described above with silky, high-performance motion.</p>
+    </div>
+  </div>
+  <div class="stack-item">
+    <div class="stack-dot"></div>
+    <div class="stack-info">
+      <h4>Tailwind CSS</h4>
+      <p>Utility-first CSS. Fast to style, easy to maintain, and pairs naturally with Next.js. Custom design tokens for the ivory, champagne gold, and dusty coral palette.</p>
+    </div>
+  </div>
+  <div class="stack-item">
+    <div class="stack-dot"></div>
+    <div class="stack-info">
+      <h4>Stripe — Payments (Phase 2)</h4>
+      <p>The most trusted payment platform for e-commerce. Will power the shopping cart and checkout flow in the second phase. Seamless integration with Next.js via the official Stripe SDK.</p>
+    </div>
+  </div>
+  <div class="stack-item">
+    <div class="stack-dot"></div>
+    <div class="stack-info">
+      <h4>Resend — Email (contact forms + order confirmations)</h4>
+      <p>Simple developer-friendly email API. Fires off notifications when someone submits the contact form or places an order. Free tier covers hundreds of emails per month.</p>
+    </div>
+  </div>
+  <div class="stack-item">
+    <div class="stack-dot"></div>
+    <div class="stack-info">
+      <h4>Vercel — Hosting</h4>
+      <p>One-click deploy from GitHub. Free tier handles this traffic easily. Automatic HTTPS, global CDN, and preview deployments for every commit.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Design Principles -->
+<div class="section-title">Design Principles for This Site</div>
+<div class="three-col">
+  <div class="card">
+    <h3>Photography First</h3>
+    <p>Fine jewelry lives or dies by its photography. Every layout decision should give product images room to breathe. Ivory and white backgrounds let the pieces take center stage.</p>
+    <span class="tag light">Layout</span>
+  </div>
+  <div class="card gold">
+    <h3>Restrained Luxury</h3>
+    <p>Champagne gold and dusty coral are used as accents, not backgrounds. Sand beige and ivory dominate so the pieces pop against a clean, neutral canvas. Nothing competes with the jewelry itself.</p>
+    <span class="tag">Color</span>
+  </div>
+  <div class="card coral">
+    <h3>Slow and Considered</h3>
+    <p>Animations are subtle and purposeful. Nothing bounces or spins. Every motion should feel like the unhurried attention of someone handling something precious and rare.</p>
+    <span class="tag">Motion</span>
+  </div>
+</div>
+
+</body>
+</html>

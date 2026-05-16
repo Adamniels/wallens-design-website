@@ -4,14 +4,13 @@ export const pieceSchema = defineType({
   name: "piece",
   title: "Piece",
   type: "document",
-  // Icon shown in Sanity Studio sidebar
-  icon: () => "🪵",
+  icon: () => "💍",
   fields: [
     defineField({
       name: "title",
       title: "Title",
       type: "string",
-      description: "The name of this piece (e.g. 'Oak Dining Table No. 4')",
+      description: "The name of this piece (e.g. 'Rose Gold Ring No. 3' or 'Pearl Drop Earrings')",
       validation: (Rule) => Rule.required().min(2).max(100),
     }),
 
@@ -33,12 +32,12 @@ export const pieceSchema = defineType({
       type: "string",
       options: {
         list: [
-          { title: "Furniture", value: "furniture" },
-          { title: "Custom Commission", value: "commission" },
-          { title: "Storage", value: "storage" },
-          { title: "Seating", value: "seating" },
-          { title: "Tables", value: "tables" },
-          { title: "Outdoor", value: "outdoor" },
+          { title: "Rings", value: "rings" },
+          { title: "Necklaces", value: "necklaces" },
+          { title: "Earrings", value: "earrings" },
+          { title: "Bracelets", value: "bracelets" },
+          { title: "Brooches", value: "brooches" },
+          { title: "Custom Order", value: "commission" },
         ],
         layout: "radio",
       },
@@ -53,7 +52,7 @@ export const pieceSchema = defineType({
         list: [
           { title: "Available", value: "available" },
           { title: "Sold", value: "sold" },
-          { title: "Commission Only", value: "commission" },
+          { title: "Custom Order Only", value: "commission" },
           { title: "Not for Sale", value: "display" },
         ],
         layout: "radio",
@@ -66,16 +65,16 @@ export const pieceSchema = defineType({
       name: "price",
       title: "Price (SEK)",
       type: "number",
-      description: "Leave empty if commission-only or not for sale.",
+      description: "Leave empty if custom-order only or not for sale.",
     }),
 
     defineField({
       name: "heroImage",
       title: "Hero Image",
       type: "image",
-      description: "The main showcase image. Use a high-quality photo.",
+      description: "The main showcase image. Use a high-quality product photo on a clean background.",
       options: {
-        hotspot: true, // Enables focal point selection
+        hotspot: true,
       },
       fields: [
         defineField({
@@ -93,7 +92,7 @@ export const pieceSchema = defineType({
       name: "images",
       title: "Additional Images",
       type: "array",
-      description: "Up to 8 supporting images shown in the detail gallery.",
+      description: "Up to 8 supporting images shown in the detail gallery. Show different angles, details, and worn shots.",
       of: [
         {
           type: "image",
@@ -127,7 +126,7 @@ export const pieceSchema = defineType({
       name: "description",
       title: "Description (Swedish)",
       type: "array",
-      description: "Rich text description of the piece — materials, process, story.",
+      description: "Rich text description — materials, gemstones, inspiration, and the story behind this piece.",
       of: [
         {
           type: "block",
@@ -171,7 +170,18 @@ export const pieceSchema = defineType({
       name: "materials",
       title: "Materials",
       type: "array",
-      description: "List the wood species and other materials used.",
+      description: "Metals and other materials used — e.g. '18k Rose Gold', 'Sterling Silver', 'Oxidised Brass'.",
+      of: [{ type: "string" }],
+      options: {
+        layout: "tags",
+      },
+    }),
+
+    defineField({
+      name: "gemstones",
+      title: "Gemstones",
+      type: "array",
+      description: "Stones set in the piece — e.g. 'White Diamond 0.3ct', 'Freshwater Pearl', 'Sapphire'.",
       of: [{ type: "string" }],
       options: {
         layout: "tags",
@@ -182,29 +192,40 @@ export const pieceSchema = defineType({
       name: "dimensions",
       title: "Dimensions",
       type: "object",
+      description: "Measurements in millimetres. Use what is relevant for this type of piece.",
       fields: [
         defineField({
           name: "height",
-          title: "Height (cm)",
+          title: "Height / Length (mm)",
           type: "number",
+          description: "Height of pendant, length of chain or bracelet.",
         }),
         defineField({
           name: "width",
-          title: "Width (cm)",
+          title: "Width (mm)",
           type: "number",
+          description: "Width of ring band, pendant, or brooch.",
         }),
         defineField({
           name: "depth",
-          title: "Depth (cm)",
+          title: "Thickness (mm)",
           type: "number",
+          description: "Depth or thickness of the piece.",
         }),
         defineField({
           name: "note",
           title: "Dimension Note",
           type: "string",
-          description: "Optional clarification, e.g. 'Extended length: 220cm'",
+          description: "Optional clarification — e.g. 'Ring size 17 (EU 54)', 'Chain length adjustable 40–45 cm'",
         }),
       ],
+    }),
+
+    defineField({
+      name: "weightGrams",
+      title: "Weight (grams)",
+      type: "number",
+      description: "Total weight of the piece in grams. Optional.",
     }),
 
     defineField({
@@ -226,7 +247,7 @@ export const pieceSchema = defineType({
       name: "order",
       title: "Display Order",
       type: "number",
-      description: "Lower numbers appear first in the portfolio. Leave empty to sort by date.",
+      description: "Lower numbers appear first in the collection. Leave empty to sort by date.",
     }),
   ],
 

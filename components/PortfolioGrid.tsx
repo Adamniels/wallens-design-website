@@ -16,13 +16,13 @@ export default function PortfolioGrid({ pieces, locale = "sv" }: Props) {
   const [active, setActive] = useState<PieceCategory | "all">("all");
 
   const CATEGORIES: { value: PieceCategory | "all"; label: string }[] = [
-    { value: "all", label: locale === "sv" ? "Alla arbeten" : "All Work" },
-    { value: "furniture", label: tr.categories.furniture },
-    { value: "tables", label: tr.categories.tables },
-    { value: "seating", label: tr.categories.seating },
-    { value: "storage", label: tr.categories.storage },
+    { value: "all", label: locale === "sv" ? "Alla smycken" : "All Pieces" },
+    { value: "rings", label: tr.categories.rings },
+    { value: "necklaces", label: tr.categories.necklaces },
+    { value: "earrings", label: tr.categories.earrings },
+    { value: "bracelets", label: tr.categories.bracelets },
+    { value: "brooches", label: tr.categories.brooches },
     { value: "commission", label: tr.categories.commission },
-    { value: "outdoor", label: tr.categories.outdoor },
   ];
 
   const availableCategories = CATEGORIES.filter(

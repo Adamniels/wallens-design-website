@@ -54,7 +54,7 @@ export const aboutSchema = defineType({
       name: "body",
       title: "Story / Bio (Swedish)",
       type: "array",
-      description: "The craftsman's background, philosophy, and approach.",
+      description: "The designer's background, philosophy, and approach to jewellery.",
       of: [
         {
           type: "block",
@@ -96,9 +96,9 @@ export const aboutSchema = defineType({
 
     defineField({
       name: "workshopImages",
-      title: "Workshop / Process Images",
+      title: "Atelier / Process Images",
       type: "array",
-      description: "Photos of the workshop, tools, or work in progress.",
+      description: "Photos of the atelier, tools, or jewellery work in progress.",
       of: [
         {
           type: "image",
@@ -113,9 +113,9 @@ export const aboutSchema = defineType({
 
     defineField({
       name: "values",
-      title: "Craft Values",
+      title: "Design Values",
       type: "array",
-      description: "Short principles or values — shown as a visual list.",
+      description: "Short principles or values — shown as a visual list on the About page.",
       of: [
         {
           type: "object",

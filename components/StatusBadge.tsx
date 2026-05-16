@@ -13,7 +13,7 @@ const config: Record<
     className: "badge-sold",
   },
   commission: {
-    label: "Commission Only",
+    label: "Custom Order Only",
     className: "badge-commission",
   },
   display: {

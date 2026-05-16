@@ -19,15 +19,15 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: {
-    default: "SM Struktur — Finsnickeri",
-    template: "%s | SM Struktur",
+    default: "Wallens Design — Fine Jewellery",
+    template: "%s | Wallens Design",
   },
   description:
-    "Handgjorda möbler och skräddarsytt träarbete. Varje objekt byggt med intention — designat för att hålla livet ut.",
+    "Handgjorda smycken och skräddarsydda beställningar. Varje piece skapad med omsorg och avsikt, designad att bäras livet ut.",
   openGraph: {
-    title: "SM Struktur — Finsnickeri",
+    title: "Wallens Design — Fine Jewellery",
     description:
-      "Handcrafted furniture and bespoke woodwork. Each piece built with intention.",
+      "Handcrafted jewellery and bespoke commissions. Each piece made with intention, designed to last a lifetime.",
     type: "website",
   },
 };

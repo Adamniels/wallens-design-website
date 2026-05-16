@@ -14,8 +14,8 @@ export async function generateMetadata({
     title: tr.commissions.headline,
     description:
       locale === "sv"
-        ? "Beställ ett skräddarsytt objekt — möbler och träarbete på beställning, byggt utifrån ditt rum och din historia."
-        : "Commission a bespoke piece — furniture and woodwork made to order, built around your space and story.",
+        ? "Beställ ett skräddarsytt smycke — handgjorda specialbeställningar skapade utifrån din vision och din historia."
+        : "Commission a bespoke piece of jewellery — handcrafted custom orders built around your vision and story.",
   };
 }
 

@@ -22,8 +22,8 @@ export async function generateMetadata({
     title: tr.about.eyebrow,
     description:
       locale === "sv"
-        ? "Historien bakom SM Struktur — hantverkaren, verkstaden och filosofin bakom finsnickeri."
-        : "The story behind SM Struktur — the craftsman, the workshop, and the approach to fine woodworking.",
+        ? "Historien bakom Wallens Design — designern, ateliern och filosofin bakom handgjorda smycken."
+        : "The story behind Wallens Design — the designer, the atelier, and the approach to fine jewellery.",
   };
 }
 

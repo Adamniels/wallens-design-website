@@ -50,7 +50,7 @@ export default function Navbar() {
           href={lp("/")}
           className="font-serif text-xl md:text-2xl text-forest tracking-wide hover:text-gold transition-colors duration-300"
         >
-          SM Struktur AB
+          Wallens Design
         </Link>
 
         {/* Desktop nav */}

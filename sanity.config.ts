@@ -8,7 +8,7 @@ export default defineConfig({
   projectId,
   dataset,
   apiVersion,
-  title: "SM Struktur — Admin",
+  title: "Wallens Design — Admin",
 
   plugins: [
     structureTool({

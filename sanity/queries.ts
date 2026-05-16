@@ -19,12 +19,12 @@ export interface PieceDimensions {
 
 export type PieceStatus = "available" | "sold" | "commission" | "display";
 export type PieceCategory =
-  | "furniture"
-  | "commission"
-  | "storage"
-  | "seating"
-  | "tables"
-  | "outdoor";
+  | "rings"
+  | "necklaces"
+  | "earrings"
+  | "bracelets"
+  | "brooches"
+  | "commission";
 
 // ─── Piece (card / list view) ────────────────────────────────────────────────
 
@@ -94,7 +94,9 @@ export interface PieceDetail extends PieceCard {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   description_en?: any[];
   materials?: string[];
+  gemstones?: string[];
   dimensions?: PieceDimensions;
+  weightGrams?: number;
 }
 
 export const pieceBySlugQuery = groq`
@@ -111,7 +113,9 @@ export const pieceBySlugQuery = groq`
     description,
     description_en,
     materials,
+    gemstones,
     dimensions,
+    weightGrams,
     year,
     featured
   }

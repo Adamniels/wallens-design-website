@@ -7,19 +7,19 @@ import { getT, localePath } from "@/lib/i18n";
 
 const strings = {
   sv: {
-    tagline: "Fina möbler och skräddarsytt träarbete. Varje objekt byggt med intention, designat för att hålla livet ut.",
+    tagline: "Fina smycken och skräddarsydda beställningar. Varje piece skapad med omsorg, designad att bäras livet ut.",
     navigate: "Navigera",
     getInTouch: "Kontakt",
-    inquire: "Fråga om ett objekt",
-    startCommission: "Starta en beställning",
+    inquire: "Fråga om ett smycke",
+    startCommission: "Starta en specialbeställning",
     rights: "Alla rättigheter förbehållna.",
   },
   en: {
-    tagline: "Fine furniture and bespoke woodwork. Each piece built with intention, designed to last a lifetime.",
+    tagline: "Fine jewellery and bespoke commissions. Each piece made with intention, designed to last a lifetime.",
     navigate: "Navigate",
     getInTouch: "Get in Touch",
     inquire: "Inquire about a piece",
-    startCommission: "Start a commission",
+    startCommission: "Start a custom order",
     rights: "All rights reserved.",
   },
 };
@@ -46,7 +46,7 @@ export default function Footer() {
           {/* Brand column */}
           <div className="space-y-4">
             <p className="font-serif text-2xl text-cream tracking-wide">
-              SM Struktur AB
+              Wallens Design
             </p>
             <p className="font-sans text-sm leading-relaxed text-cream/60 max-w-xs">
               {t.tagline}
@@ -98,7 +98,7 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="mt-16 pt-8 border-t border-cream/10 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <p className="font-sans text-xs text-cream/40">
-            &copy; {year} SM Struktur. {t.rights}
+            &copy; {year} Wallens Design. {t.rights}
           </p>
           <p className="font-sans text-xs text-cream/30 italic font-serif">
             {tr.footer.tagline}
