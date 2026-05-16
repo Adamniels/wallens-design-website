@@ -7,6 +7,7 @@ import { useCart } from "@/context/CartContext";
 import { formatPrice } from "@/lib/cartTypes";
 import type { Locale } from "@/lib/i18n";
 import { localePath } from "@/lib/i18n";
+import CheckoutButton from "@/components/CheckoutButton";
 
 // Translations inline — keeps the drawer self-contained
 const copy = {
@@ -299,14 +300,7 @@ export default function CartDrawer() {
             {/* Thin gold line */}
             <div className="w-full h-px bg-sand" />
 
-            {/* Checkout button — Phase 3 will attach the real handler */}
-            <Link
-              href={lp("/checkout")}
-              onClick={closeDrawer}
-              className="block w-full bg-forest text-cream font-sans text-xs tracking-widest uppercase text-center py-4 hover:bg-forest-light transition-colors duration-300"
-            >
-              {t.checkout}
-            </Link>
+            <CheckoutButton items={items} locale={locale} />
 
             <p className="font-sans text-[11px] text-charcoal/40 text-center tracking-wide">
               {locale === "sv"

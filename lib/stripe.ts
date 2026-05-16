@@ -1,0 +1,14 @@
+import Stripe from "stripe";
+
+if (!process.env.STRIPE_SECRET_KEY) {
+  throw new Error(
+    "STRIPE_SECRET_KEY is not set. Add it to .env.local — see .env.local.example."
+  );
+}
+
+// Singleton — prevents multiple Stripe instances during Next.js hot reload
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+  apiVersion: "2026-04-22.dahlia",
+});
+
+export default stripe;
