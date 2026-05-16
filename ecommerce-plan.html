@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>E-Commerce Implementation Plan — Wallens Design</title>
+  <style>
+    :root {
+      --cream: #FAF7F2;
+      --forest: #2C4A3E;
+      --forest-dark: #1e3329;
+      --gold: #B8965A;
+      --gold-light: #d4b07a;
+      --charcoal: #2D2D2D;
+      --sand: #E8E0D0;
+      --sand-light: #F2EDE4;
+      --white: #ffffff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: var(--cream);
+      color: var(--charcoal);
+      font-family: 'Georgia', 'Times New Roman', serif;
+      line-height: 1.7;
+    }
+
+    /* ---- TYPOGRAPHY ---- */
+    .sans { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+
+    h1, h2, h3, h4 { font-weight: 300; letter-spacing: 0.02em; }
+
+    /* ---- LAYOUT ---- */
+    .container { max-width: 960px; margin: 0 auto; padding: 0 32px; }
+
+    /* ---- HEADER ---- */
+    header {
+      background: var(--forest);
+      color: var(--cream);
+      padding: 80px 0 72px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: radial-gradient(ellipse at 80% 50%, rgba(184,150,90,0.12) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .header-eyebrow {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    header h1 {
+      font-size: clamp(32px, 5vw, 52px);
+      line-height: 1.15;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+
+    header p {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      color: rgba(250,247,242,0.65);
+      max-width: 560px;
+      line-height: 1.75;
+    }
+
+    .gold-rule { width: 48px; height: 1px; background: var(--gold); margin: 28px 0; }
+
+    /* ---- OVERVIEW CARDS ---- */
+    .overview {
+      background: var(--white);
+      border-top: 1px solid var(--sand);
+      padding: 64px 0;
+    }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0;
+      border: 1px solid var(--sand);
+    }
+
+    .overview-card {
+      padding: 32px 28px;
+      border-right: 1px solid var(--sand);
+      position: relative;
+    }
+
+    .overview-card:last-child { border-right: none; }
+
+    .overview-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 28px;
+      width: 28px; height: 1px;
+      background: var(--gold);
+    }
+
+    .card-num {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      color: var(--forest);
+      margin-bottom: 8px;
+      font-weight: 400;
+    }
+
+    .card-desc {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 12px;
+      color: var(--charcoal);
+      opacity: 0.6;
+      line-height: 1.6;
+    }
+
+    /* ---- SECTIONS ---- */
+    .section {
+      padding: 80px 0;
+      border-top: 1px solid var(--sand);
+    }
+
+    .section:nth-child(even) { background: var(--white); }
+    .section:nth-child(odd) { background: var(--cream); }
+
+    .phase-label {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 12px;
+    }
+
+    .section h2 {
+      font-size: clamp(22px, 3vw, 32px);
+      color: var(--forest);
+      margin-bottom: 16px;
+    }
+
+    .section-intro {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 15px;
+      color: var(--charcoal);
+      opacity: 0.7;
+      max-width: 640px;
+      margin-bottom: 48px;
+      line-height: 1.75;
+    }
+
+    /* ---- PHASE CONTENT ---- */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    @media (max-width: 680px) {
+      .content-grid { grid-template-columns: 1fr; }
+      .overview-card { border-right: none; border-bottom: 1px solid var(--sand); }
+    }
+
+    .content-block h3 {
+      font-size: 16px;
+      color: var(--forest);
+      margin-bottom: 16px;
+      font-weight: 400;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--sand);
+    }
+
+    .item-list {
+      list-style: none;
+    }
+
+    .item-list li {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      font-size: 13px;
+      color: var(--charcoal);
+      padding: 10px 0;
+      border-bottom: 1px solid var(--sand-light);
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      line-height: 1.5;
+    }
+
+    .item-list li::before {
+      content: '';
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--gold);
+      margin-top: 6px;
+      flex-shrink: 0;
+    }
+
+    /* ---- CODE BLOCK ---- */
+    .code-block {
+      background: var(--forest-dark);
+      color: #a8c5be;
+      padding: 24px 28px;
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      border-radius: 2px;
+      margin-top: 20px;
+      overflow-x: auto;
+    }
+
+    .code-block .comment { color: #5a7a73; }
+    .code-block .key { color: var(--gold-light); }
+    .code-block .val { color: #8fbdb5; }
+    .code-block .str { color: #b8d4cf; }
+    .code-block .kw { color: #d4b07a; }
+
+    /* ---- FILE TREE ---- */
+    .file-tree {
+      background: var(--forest-dark);
+      color: #a8c5be;
+      padding: 28px 32px;
+      font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+      font-size: 12.5px;
+      line-height: 2;
+      border-radius: 2px;
+    }
+
+    .file-tree .dir { color: var(--gold-light); }
+    .file-tree .new { color: #7ec8a8; }
+    .file-tree .mod { color: #d4b07a; }
+    .file-tree .label {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 1px 6px;
+      border-radius: 2px;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .label-new { background: rgba(126,200,168,0.15); color: #7ec8a8; }
+    .label-mod { background: rgba(212,176,122,0.15); color: #d4b07a; }
+
+    /* ---- FLOW DIAGRAM ---- */
+    .flow {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-wrap: wrap;
+      margin: 40px 0;
+    }
+
+    .flow-step {
+      background: var(--forest);
+      color: var(--cream);
+      padding: 16px 20px;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      text-align: center;
+      min-width: 110px;
+      position: relative;
+      line-height: 1.4;
+    }
+
+    .flow-step.accent {
+      background: var(--gold);
+      color: var(--forest-dark);
+      font-weight: 600;
+    }
+
+    .flow-arrow {
+      width: 0; height: 0;
+      border-top: 24px solid transparent;
+      border-bottom: 24px solid transparent;
+      border-left: 16px solid var(--forest);
+      flex-shrink: 0;
+    }
+
+    .flow-arrow.accent { border-left-color: var(--gold); }
+
+    /* ---- ENV TABLE ---- */
+    .env-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 13px;
+      margin-top: 24px;
+    }
+
+    .env-table th {
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--sand);
+      font-weight: 400;
+    }
+
+    .env-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--sand-light);
+      vertical-align: top;
+      line-height: 1.5;
+    }
+
+    .env-table tr:last-child td { border-bottom: none; }
+
+    .env-table .var {
+      font-family: 'Menlo', 'Monaco', monospace;
+      font-size: 11.5px;
+      color: var(--forest);
+      white-space: nowrap;
+    }
+
+    .env-table .where {
+      color: var(--charcoal);
+      opacity: 0.6;
+      font-size: 12px;
+    }
+
+    .env-table .desc {
+      color: var(--charcoal);
+      opacity: 0.75;
+    }
+
+    /* ---- CALLOUT ---- */
+    .callout {
+      border-left: 3px solid var(--gold);
+      background: rgba(184,150,90,0.06);
+      padding: 20px 24px;
+      margin: 32px 0;
+    }
+
+    .callout p {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 13px;
+      color: var(--charcoal);
+      line-height: 1.7;
+    }
+
+    .callout strong { color: var(--forest); font-weight: 600; }
+
+    /* ---- PACKAGES ---- */
+    .pkg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .pkg-card {
+      border: 1px solid var(--sand);
+      padding: 20px;
+      background: var(--white);
+    }
+
+    .pkg-name {
+      font-family: 'Menlo', Monaco, monospace;
+      font-size: 13px;
+      color: var(--forest);
+      margin-bottom: 6px;
+    }
+
+    .pkg-role {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 12px;
+      color: var(--charcoal);
+      opacity: 0.6;
+      line-height: 1.5;
+    }
+
+    /* ---- TIMELINE ---- */
+    .timeline { margin-top: 40px; }
+
+    .timeline-row {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 24px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--sand-light);
+      align-items: start;
+    }
+
+    .timeline-row:last-child { border-bottom: none; }
+
+    .timeline-phase {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .timeline-desc {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 13px;
+      color: var(--charcoal);
+      opacity: 0.75;
+      line-height: 1.6;
+    }
+
+    .timeline-title {
+      font-size: 15px;
+      color: var(--forest);
+      margin-bottom: 4px;
+      font-weight: 400;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      background: var(--forest-dark);
+      color: rgba(250,247,242,0.4);
+      padding: 48px 0;
+      text-align: center;
+    }
+
+    footer p {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.1em;
+    }
+
+    footer span { color: var(--gold); }
+
+    /* ---- ARCH DIAGRAM ---- */
+    .arch {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 1px;
+      background: var(--sand);
+      border: 1px solid var(--sand);
+      margin: 40px 0;
+    }
+
+    .arch-cell {
+      background: var(--white);
+      padding: 24px;
+    }
+
+    .arch-cell-label {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .arch-cell h4 {
+      font-size: 15px;
+      color: var(--forest);
+      margin-bottom: 12px;
+      font-weight: 400;
+    }
+
+    .arch-cell ul {
+      list-style: none;
+    }
+
+    .arch-cell ul li {
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      font-size: 11.5px;
+      color: var(--charcoal);
+      opacity: 0.65;
+      padding: 5px 0;
+      border-bottom: 1px solid var(--sand-light);
+      line-height: 1.4;
+    }
+
+    .arch-cell ul li:last-child { border-bottom: none; }
+
+    @media (max-width: 680px) {
+      .arch { grid-template-columns: 1fr; }
+      .flow-step { min-width: 80px; font-size: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="container">
+      <p class="header-eyebrow">Wallens Design — Implementation Plan</p>
+      <h1>E-Commerce: Cart,<br>Checkout &amp; Payments</h1>
+      <div class="gold-rule"></div>
+      <p>A complete blueprint for turning Wallens Design into a fully transactional storefront — persistent cart, Stripe Checkout, inventory management, discount codes, and automated order emails. Built for Next.js 15 with Sanity CMS.</p>
+    </div>
+  </header>
+
+  <!-- OVERVIEW CARDS -->
+  <div class="overview">
+    <div class="container">
+      <div class="overview-grid">
+        <div class="overview-card">
+          <p class="card-num sans">Phase 01</p>
+          <p class="card-title">Cart System</p>
+          <p class="card-desc sans">Global state, localStorage persistence, animated slide-out drawer</p>
+        </div>
+        <div class="overview-card">
+          <p class="card-num sans">Phase 02</p>
+          <p class="card-title">Product Shop</p>
+          <p class="card-desc sans">Shop page, product schema additions, add-to-cart flows</p>
+        </div>
+        <div class="overview-card">
+          <p class="card-num sans">Phase 03</p>
+          <p class="card-title">Stripe Checkout</p>
+          <p class="card-desc sans">Hosted checkout, server validation, promo codes baked in</p>
+        </div>
+        <div class="overview-card">
+          <p class="card-num sans">Phase 04</p>
+          <p class="card-title">Post-Purchase</p>
+          <p class="card-desc sans">Webhooks, confirmation emails via Resend, success page</p>
+        </div>
+        <div class="overview-card">
+          <p class="card-num sans">Phase 05</p>
+          <p class="card-title">Inventory</p>
+          <p class="card-desc sans">Stock tracking in Sanity, auto-decrement on purchase</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARCHITECTURE -->
+  <div class="section">
+    <div class="container">
+      <p class="phase-label sans">Architecture Overview</p>
+      <h2>How the pieces fit together</h2>
+      <p class="section-intro sans">Three systems work together. Sanity owns content and imagery. Stripe owns money, discount codes, and payment sessions. The Next.js app is the glue — it reads from both and writes back to Sanity via webhooks after a purchase completes.</p>
+
+      <div class="arch">
+        <div class="arch-cell">
+          <p class="arch-cell-label sans">Content Layer</p>
+          <h4>Sanity CMS</h4>
+          <ul>
+            <li>Product images &amp; descriptions</li>
+            <li>Rich text / story content</li>
+            <li>Stock quantity (number field)</li>
+            <li>In-stock boolean flag</li>
+            <li>Stripe Product ID reference</li>
+          </ul>
+        </div>
+        <div class="arch-cell">
+          <p class="arch-cell-label sans">Application Layer</p>
+          <h4>Next.js 15</h4>
+          <ul>
+            <li>CartContext + localStorage</li>
+            <li>CartDrawer UI component</li>
+            <li>/api/checkout — creates Stripe session</li>
+            <li>/api/webhooks/stripe — listens for events</li>
+            <li>Shop, product detail, success pages</li>
+          </ul>
+        </div>
+        <div class="arch-cell">
+          <p class="arch-cell-label sans">Commerce Layer</p>
+          <h4>Stripe</h4>
+          <ul>
+            <li>Products &amp; Prices (source of truth for pricing)</li>
+            <li>Hosted Checkout page</li>
+            <li>Promo Codes / Coupons</li>
+            <li>Webhooks on checkout.session.completed</li>
+            <li>Order history in Stripe Dashboard</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>On inventory:</strong> You said Sanity cannot control quantity — meaning you cannot let customers change stock through Sanity's hosted UI. The fix: stock is stored as a number field in Sanity, but it is only ever written to programmatically via the Stripe webhook after a real purchase. You never rely on a Sanity editor manually updating it. This is how professional stores handle it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 1: CART -->
+  <div class="section">
+    <div class="container">
+      <p class="phase-label sans">Phase 01</p>
+      <h2>The Cart System</h2>
+      <p class="section-intro sans">The cart lives entirely on the client — no database, no server round-trips. State is managed with React Context and mirrored to localStorage so it survives page refreshes and browser restarts. A slide-out drawer (animated with GSAP, matching your existing animation style) opens from the right on any "Add to Cart" action.</p>
+
+      <div class="content-grid">
+        <div class="content-block">
+          <h3>What gets built</h3>
+          <ul class="item-list">
+            <li>CartContext with useReducer — actions for add, remove, update quantity, clear</li>
+            <li>useLocalStorage hook that syncs cart state automatically on every change</li>
+            <li>CartDrawer component: slides in from the right, lists items with image, name, price, and quantity stepper</li>
+            <li>Cart icon added to the Navbar with an animated item-count badge</li>
+            <li>Subtotal display and a "Proceed to Checkout" button at the bottom of the drawer</li>
+            <li>Quantity controls in the drawer — plus/minus buttons, remove item button</li>
+            <li>Empty cart state with a friendly message and link to the shop</li>
+          </ul>
+        </div>
+        <div class="content-block">
+          <h3>Cart state shape</h3>
+          <div class="code-block">
+<span class="comment">// lib/cartTypes.ts</span>
+<span class="kw">type</span> CartItem = {
+  <span class="key">id</span>: <span class="str">string</span>;         <span class="comment">// Stripe Price ID</span>
+  <span class="key">name</span>: <span class="str">string</span>;
+  <span class="key">price</span>: <span class="str">number</span>;      <span class="comment">// in öre / cents</span>
+  <span class="key">currency</span>: <span class="str">string</span>;
+  <span class="key">image</span>: <span class="str">string</span>;
+  <span class="key">quantity</span>: <span class="str">number</span>;
+  <span class="key">slug</span>: <span class="str">string</span>;
+};
+
+<span class="kw">type</span> CartState = {
+  <span class="key">items</span>: CartItem[];
+  <span class="key">isOpen</span>: <span class="str">boolean</span>;
+};
+          </div>
+
+          <div class="callout" style="margin-top: 24px;">
+            <p><strong>Quantity in the cart is separate from inventory.</strong> A customer can add 3 of the same piece to their cart — the actual stock check happens server-side at checkout creation, not in the browser. This prevents race conditions and overselling.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 2: SHOP -->
+  <div class="section">
+    <div class="container">
+      <p class="phase-label sans">Phase 02</p>
+      <h2>Product Shop Infrastructure</h2>
+      <p class="section-intro sans">Sanity already holds your beautiful product content. We add a handful of fields to the existing schema, create a /en/shop and /sv/shop page, and wire up "Add to Cart" buttons. Pricing lives in Stripe — Sanity only stores the Stripe Price ID as a reference, so you never manage a price in two places.</p>
+
+      <div class="content-grid">
+        <div class="content-block">
+          <h3>Sanity schema additions</h3>
+          <ul class="item-list">
+            <li><strong>stripePriceId</strong> (string) — the Stripe Price ID like price_1Abc…. This is what gets sent to Stripe at checkout.</li>
+            <li><strong>price</strong> (number) — display price in SEK/EUR, fetched from Stripe on first render and cached. Shown in the UI.</li>
+            <li><strong>currency</strong> (string) — "sek" or "eur"</li>
+            <li><strong>stockQuantity</strong> (number) — total units available. Set this manually when you add a product. Decremented automatically after each purchase via webhook.</li>
+            <li><strong>inStock</strong> (boolean) — auto-set to false when stockQuantity reaches 0. Used to show "Sold Out" on the product card and disable the cart button.</li>
+            <li><strong>availableForPurchase</strong> (boolean) — a manual override you can flip to hide a product from the shop without deleting it.</li>
+          </ul>
+        </div>
+        <div class="content-block">
+          <h3>New pages</h3>
+          <ul class="item-list">
+            <li><strong>/[locale]/shop</strong> — the main shop grid page. Fetches all products from Sanity where availableForPurchase is true. Uses your existing PortfolioGrid-style layout.</li>
+            <li><strong>/[locale]/shop/[slug]</strong> — individual product detail page with full imagery, description in Portable Text, price, stock status, and "Add to Cart" button.</li>
+            <li><strong>/[locale]/checkout/success</strong> — post-payment confirmation page shown after Stripe redirects the customer back. Displays order summary from Stripe session params.</li>
+            <li><strong>/[locale]/checkout/cancel</strong> — shown if the customer cancels on the Stripe page. Reassures them their cart is still intact and links back to the shop.</li>
+          </ul>
+          <div class="callout" style="margin-top: 24px;">
+            <p><strong>Nav addition:</strong> A "Shop" link will be added to the Navbar's navLinks array in both locales — "Shop" in English, "Butik" in Swedish.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 3: STRIPE -->
+  <div class="section">
+    <div class="container">
+      <p class="phase-label sans">Phase 03</p>
+      <h2>Stripe Checkout Integration</h2>
+      <p class="section-intro sans">When the customer clicks "Proceed to Checkout", the browser sends the cart to a Next.js API route. That route validates stock server-side, then creates a Stripe Checkout Session and returns its URL. The browser then redirects there. Stripe handles the entire payment — card entry, 3D Secure, Apple Pay, Google Pay — and redirects back to your success page when done.</p>
+
+      <div class="flow">
+        <div class="flow-step">Customer clicks<br>Checkout</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">POST /api/<br>checkout</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step accent">Stripe creates<br>Session</div>
+        <div class="flow-arrow accent"></div>
+        <div class="flow-step">Stripe Hosted<br>Checkout</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">Payment<br>Success</div>
+        <div class="flow-arrow"></div>
+        <div class="flow-step">Redirect to<br>/success</div>
+      </div>
+
+      <div class="content-grid">
+        <div class="content-block">
+          <h3>API route: /api/checkout</h3>
+          <ul class="item-list">
+            <li>Receives the cart as JSON in the request body</li>
+            <li>For each item, queries Sanity to verify stockQuantity is sufficient — if any item is out of stock, returns a 400 error with a clear message so the UI can inform the customer</li>
+            <li>Builds Stripe line_items from each cart item's stripePriceId and quantity</li>
+            <li>Creates a Checkout Session with mode: "payment"</li>
+            <li>Sets success_url to /checkout/success with session_id in the query string</li>
+            <li>Sets cancel_url to /checkout/cancel</li>
+            <li>Passes locale and a cart snapshot as session metadata (used in the webhook)</li>
+            <li>Returns the session URL — the browser redirects to it</li>
+          </ul>
+        </div>
+        <div class="content-block">
+          <h3>Checkout session config</h3>
+          <div class="code-block">
+<span class="comment">// app/api/checkout/route.ts</span>
+<span class="kw">await</span> stripe.checkout.sessions.create({
+  <span class="key">mode</span>: <span class="str">'payment'</span>,
+  <span class="key">line_items</span>: cartItems,
+  <span class="key">allow_promotion_codes</span>: <span class="str">true</span>,
+  <span class="comment">// ↑ Enables your Stripe promo</span>
+  <span class="comment">//   codes natively. No extra code.</span>
+  <span class="key">shipping_address_collection</span>: {
+    <span class="key">allowed_countries</span>: [<span class="str">'SE'</span>, <span class="str">'NO'</span>,
+      <span class="str">'DK'</span>, <span class="str">'FI'</span>, <span class="str">'DE'</span>, <span class="str">'GB'</span>],
+  },
+  <span class="key">phone_number_collection</span>: {
+    <span class="key">enabled</span>: <span class="str">true</span>
+  },
+  <span class="key">customer_email</span>: <span class="str">undefined</span>,
+  <span class="comment">// pre-fill if user is logged in</span>
+  <span class="key">success_url</span>: <span class="str">`${BASE_URL}/checkout/success
+    ?session_id={CHECKOUT_SESSION_ID}`</span>,
+  <span class="key">cancel_url</span>: <span class="str">`${BASE_URL}/checkout/cancel`</span>,
+  <span class="key">metadata</span>: { <span class="key">locale</span>: locale },
+});
+          </div>
+        </div>
+      </div>
+
+      <div class="callout">
+        <p><strong>Payment methods:</strong> Stripe Checkout automatically shows Apple Pay, Google Pay, and card entry — no extra configuration needed. It also handles currency, tax display, and accessibility out of the box. This is why hosted checkout is the right call for a premium site: the payment experience is already world-class.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 4: POST-PURCHASE -->
+  <div class="section">
+    <div class="container">
+      <p class="phase-label sans">Phase 04</p>
+      <h2>Post-Purchase Flow</h2>
+      <p class="section-intro sans">After Stripe processes the payment, it fires a webhook to your server. That webhook handler does three things: sends the customer an order confirmation email, decrements stock in Sanity, and marks products as out of stock if they hit zero. This is the backbone of a professional storefront — fully automated, zero manual effort.</p>
+
+      <div class="content-grid">
+        <div class="content-block">
+          <h3>Webhook handler: /api/webhooks/stripe</h3>
+          <ul class="item-list">
+            <li>Verifies the Stripe signature using STRIPE_WEBHOOK_SECRET to ensure the request is genuine and not spoofed</li>
+            <li>Listens for checkout.session.completed — the most important event, fired the moment payment succeeds</li>
+            <li>Extracts the line items and customer details from the session</li>
+            <li>Calls Resend to send an order confirmation email to the customer</li>
+            <li>For each purchased product, calls the Sanity write API to decrement stockQuantity by the quantity purchased</li>
+            <li>If stockQuantity reaches 0 or below, also flips inStock to false on the same document</li>
+            <li>Returns 200 quickly — Stripe expects a fast response and will retry if it times out</li>
+          </ul>
+        </div>
+        <div class="content-block">
+          <h3>Order confirmation email</h3>
+          <ul class="item-list">
+            <li>Sent via Resend — the cleanest transactional email solution for Next.js, with a generous free tier (3,000/month) and excellent deliverability</li>
+            <li>Template uses React Email components styled to match the Wallens Design brand: cream background, forest headings, gold accents</li>
+            <li>Contains: order number, list of items with images and prices, subtotal, shipping address, and a note about the handcrafted nature of the pieces</li>
+            <li>Sent from a custom domain address like orders@wallensdesign.se for professionalism</li>
+            <li>You also receive a copy (BCC) at your own address so you always know when an order comes in</li>
+          </ul>
+
+          <div class="callout" style="margin-top: 20px;">
+            <p><strong>Why Resend over SendGrid/Mailgun?</strong> Resend is built for Next.js, uses React for email templates (same codebase), and has a dead-simple API. SendGrid is powerful but has a steep setup curve for relatively simple transactional needs.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 5: DISCOUNTS -->
+  <div class="section">
+    <div class="container">
+      <p class="phase-label sans">Phase 05</p>
+      <h2>Discount Codes &amp; Promotions</h2>
+      <p class="section-intro sans">Discount codes are entirely managed in the Stripe Dashboard — you create them there with whatever rules you want (percentage off, fixed amount, minimum order value, single use, expiry date). Because the checkout session is created with allow_promotion_codes: true, Stripe shows a promo code field on the checkout page automatically. Zero extra frontend code needed.</p>
+
+      <div class="content-grid">
+        <div class="content-block">
+          <h3>What you can do in Stripe Dashboard</h3>
+          <ul class="item-list">
+            <li>Create percentage-off codes (e.g. WELCOME10 for 10% off)</li>
+            <li>Create fixed-amount codes (e.g. SUMMER50 for 50 SEK off)</li>
+            <li>Set minimum cart value requirements</li>
+            <li>Limit codes to a single use per customer, or a total number of redemptions</li>
+            <li>Set expiry dates on codes</li>
+            <li>Restrict codes to specific products or categories</li>
+            <li>See redemption analytics in the Stripe Dashboard</li>
+          </ul>
+        </div>
+        <div class="content-block">
+          <h3>How it appears to the customer</h3>
+          <ul class="item-list">
+            <li>On the Stripe Checkout page there is a "Have a promo code?" link or field</li>
+            <li>The customer enters their code, Stripe validates it instantly, and the discount is applied to the order total before payment</li>
+            <li>Invalid or expired codes show a clear error from Stripe — no custom error handling needed on your end</li>
+            <li>The discount amount is visible on the checkout page and on the order confirmation receipt Stripe sends automatically</li>
+            <li>Your order confirmation email from Resend can also display the discount applied</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PHASE 6: INVENTORY -->
+  <div class="section">
+    <div class="container">
+      <p class="phase-label sans">Phase 06</p>
+      <h2>Inventory Management</h2>
+      <p class="section-intro sans">Since Sanity's UI cannot drive inventory (you cannot have customers write to Sanity), the flow is inverted. Sanity stores the numbers, but only your webhook ever writes to them. You set the initial stock count when adding a product. Everything after that is automatic.</p>
+
+      <div class="content-grid">
+        <div class="content-block">
+          <h3>Inventory flow</h3>
+          <ul class="item-list">
+            <li><strong>You add a product</strong> — set stockQuantity to e.g. 1 (for a one-of-a-kind piece) or 5 for a small run. Set inStock to true.</li>
+            <li><strong>Customer adds to cart</strong> — no stock check yet, cart is purely client-side</li>
+            <li><strong>Customer proceeds to checkout</strong> — the /api/checkout route reads Sanity stock. If any item has stockQuantity less than the requested quantity, the request fails with a friendly error before Stripe is ever called</li>
+            <li><strong>Payment completes</strong> — Stripe webhook fires. Handler decrements stockQuantity by quantity purchased using the Sanity PATCH API</li>
+            <li><strong>Stock reaches zero</strong> — webhook also sets inStock: false on the product document</li>
+            <li><strong>Product card updates</strong> — next time the shop page renders, inStock: false causes the card to show "Sold Out" and disable "Add to Cart"</li>
+          </ul>
+        </div>
+        <div class="content-block">
+          <h3>Stock update in webhook</h3>
+          <div class="code-block">
+<span class="comment">// After payment.succeeded</span>
+<span class="kw">await</span> sanityClient
+  .patch(productId)
+  .dec({ <span class="key">stockQuantity</span>: qtySold })
+  .commit();
+
+<span class="comment">// Then check if now zero</span>
+<span class="kw">const</span> updated = <span class="kw">await</span> sanityClient
+  .fetch(<span class="str">`*[_id == $id][0].stockQuantity`</span>,
+    { id: productId });
+
+<span class="kw">if</span> (updated &lt;= 0) {
+  <span class="kw">await</span> sanityClient
+    .patch(productId)
+    .set({ <span class="key">inStock</span>: <span class="str">false</span> })
+    .commit();
+}
+          </div>
+
+          <div class="callout" style="margin-top: 24px;">
+            <p><strong>For bespoke / made-to-order pieces:</strong> Set stockQuantity to 1. When it sells, it becomes "Sold Out" automatically. If you want to re-list it, you flip inStock back to true and reset the count in Sanity Studio. Takes 10 seconds.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILE STRUCTURE -->
+  <div class="section">
+    <div class="container">
+      <p class="phase-label sans">File Map</p>
+      <h2>New files &amp; modified files</h2>
+      <p class="section-intro sans">Everything that needs to be created or changed across the codebase. Green indicates a new file. Gold indicates an existing file that gets modified.</p>
+
+      <div class="file-tree">
+<span class="dir">app/</span>
+  ├── <span class="dir">api/</span>
+  │   ├── <span class="new">checkout/route.ts</span>        <span class="label label-new">NEW</span>
+  │   └── <span class="new">webhooks/stripe/route.ts</span> <span class="label label-new">NEW</span>
+  └── <span class="dir">[locale]/</span>
+      ├── <span class="new">shop/page.tsx</span>             <span class="label label-new">NEW</span>
+      ├── <span class="new">shop/[slug]/page.tsx</span>      <span class="label label-new">NEW</span>
+      ├── <span class="new">checkout/success/page.tsx</span> <span class="label label-new">NEW</span>
+      └── <span class="new">checkout/cancel/page.tsx</span>  <span class="label label-new">NEW</span>
+
+<span class="dir">components/</span>
+  ├── <span class="new">CartDrawer.tsx</span>               <span class="label label-new">NEW</span>
+  ├── <span class="new">CartIcon.tsx</span>                 <span class="label label-new">NEW</span>
+  ├── <span class="new">ProductCard.tsx</span>              <span class="label label-new">NEW</span>
+  ├── <span class="new">AddToCartButton.tsx</span>          <span class="label label-new">NEW</span>
+  ├── <span class="mod">Navbar.tsx</span>                   <span class="label label-mod">MOD</span>  ← add Shop link + CartIcon
+  └── <span class="mod">Footer.tsx</span>                   <span class="label label-mod">MOD</span>  ← minor tweaks
+
+<span class="dir">context/</span>
+  └── <span class="new">CartContext.tsx</span>              <span class="label label-new">NEW</span>
+
+<span class="dir">lib/</span>
+  ├── <span class="new">stripe.ts</span>                    <span class="label label-new">NEW</span>  ← Stripe client singleton
+  ├── <span class="new">resend.ts</span>                    <span class="label label-new">NEW</span>  ← Resend client singleton
+  ├── <span class="new">cartTypes.ts</span>                 <span class="label label-new">NEW</span>
+  └── <span class="mod">i18n.ts</span>                      <span class="label label-mod">MOD</span>  ← add shop/butik nav strings
+
+<span class="dir">emails/</span>
+  └── <span class="new">OrderConfirmation.tsx</span>        <span class="label label-new">NEW</span>  ← React Email template
+
+<span class="dir">sanity/</span>
+  └── <span class="dir">schemas/</span>
+      └── <span class="mod">product.ts</span>               <span class="label label-mod">MOD</span>  ← add stock + stripe fields
+
+<span class="mod">.env.local</span>                       <span class="label label-mod">MOD</span>  ← add Stripe + Resend keys
+<span class="mod">app/[locale]/layout.tsx</span>          <span class="label label-mod">MOD</span>  ← wrap in CartProvider
+      </div>
+    </div>
+  </div>
+
+  <!-- ENVIRONMENT VARIABLES -->
+  <div class="section">
+    <div class="container">
+      <p class="phase-label sans">Configuration</p>
+      <h2>Environment variables</h2>
+      <p class="section-intro sans">All secrets go in .env.local (already gitignored). The NEXT_PUBLIC_ prefixed ones are safe to expose to the browser — they are public keys only. Everything else is server-only.</p>
+
+      <table class="env-table sans">
+        <thead>
+          <tr>
+            <th>Variable</th>
+            <th>Where to find it</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="var">NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY</td>
+            <td class="where">Stripe Dashboard → Developers → API keys</td>
+            <td class="desc">Public key, safe in the browser. Use the test key (pk_test_…) while developing.</td>
+          </tr>
+          <tr>
+            <td class="var">STRIPE_SECRET_KEY</td>
+            <td class="where">Stripe Dashboard → Developers → API keys</td>
+            <td class="desc">Server-only. Never expose this to the client. Use sk_test_… while developing.</td>
+          </tr>
+          <tr>
+            <td class="var">STRIPE_WEBHOOK_SECRET</td>
+            <td class="where">Stripe Dashboard → Developers → Webhooks → Signing secret</td>
+            <td class="desc">Generated after you create the webhook endpoint. Used to verify webhook authenticity. For local testing, use the Stripe CLI to get a local webhook secret.</td>
+          </tr>
+          <tr>
+            <td class="var">RESEND_API_KEY</td>
+            <td class="where">resend.com → API Keys</td>
+            <td class="desc">Server-only. Free tier covers 3,000 emails/month. Add your sending domain in the Resend dashboard first.</td>
+          </tr>
+          <tr>
+            <td class="var">NEXT_PUBLIC_SITE_URL</td>
+            <td class="where">Your own config</td>
+            <td class="desc">e.g. https://wallensdesign.se in production, http://localhost:3000 in development. Used for redirect URLs in Stripe sessions.</td>
+          </tr>
+          <tr>
+            <td class="var">SANITY_API_TOKEN</td>
+            <td class="where">Sanity Manage → Project → API → Tokens</td>
+            <td class="desc">Must have Editor or higher permissions so the webhook can write stock updates back to Sanity. Keep server-only.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- PACKAGES -->
+  <div class="section">
+    <div class="container">
+      <p class="phase-label sans">Dependencies</p>
+      <h2>Packages to install</h2>
+      <p class="section-intro sans">Three new packages. That is it. No bloated e-commerce frameworks. The cart is pure React state, Stripe handles payments, and Resend handles email.</p>
+
+      <div class="pkg-grid">
+        <div class="pkg-card">
+          <p class="pkg-name">stripe</p>
+          <p class="pkg-role sans">Stripe's official Node.js SDK. Used server-side only in API routes and the webhook handler. Handles session creation and webhook signature verification.</p>
+        </div>
+        <div class="pkg-card">
+          <p class="pkg-name">@stripe/stripe-js</p>
+          <p class="pkg-role sans">Stripe's browser library. Loaded lazily (only on checkout). Used if you ever add Stripe Elements later. Also handles the redirect to Stripe Checkout.</p>
+        </div>
+        <div class="pkg-card">
+          <p class="pkg-name">resend</p>
+          <p class="pkg-role sans">Minimal transactional email client. Pairs perfectly with React Email for branded templates. Used in the webhook handler after checkout.session.completed fires.</p>
+        </div>
+        <div class="pkg-card">
+          <p class="pkg-name">react-email</p>
+          <p class="pkg-role sans">Optional but recommended. Lets you write the order confirmation email as a React component using the same design patterns as the rest of the site.</p>
+        </div>
+      </div>
+
+      <div class="code-block" style="margin-top: 24px;">
+<span class="comment"># Install all four at once</span>
+npm install stripe @stripe/stripe-js resend @react-email/components
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="section">
+    <div class="container">
+      <p class="phase-label sans">Timeline</p>
+      <h2>Suggested build order</h2>
+      <p class="section-intro sans">Each phase unlocks the next. Do not skip ahead — a cart without a checkout route is not testable, and a checkout without a webhook means stock never decrements.</p>
+
+      <div class="timeline">
+        <div class="timeline-row">
+          <p class="timeline-phase sans">Week 1</p>
+          <div>
+            <p class="timeline-title">Cart system + Sanity schema</p>
+            <p class="timeline-desc sans">Build CartContext, useLocalStorage, CartDrawer, CartIcon. Update Navbar. Add the new Sanity fields and set stock on a few test products. At the end of this phase the cart is fully functional in the browser, items persist across refreshes, and you can add/remove/adjust quantity from the drawer.</p>
+          </div>
+        </div>
+        <div class="timeline-row">
+          <p class="timeline-phase sans">Week 2</p>
+          <div>
+            <p class="timeline-title">Shop pages + Add to Cart</p>
+            <p class="timeline-desc sans">Build the /shop listing page and /shop/[slug] product detail page. Wire up AddToCartButton to CartContext. Add Shop to the nav. By the end of this phase the full browse-to-cart flow works end to end in the UI.</p>
+          </div>
+        </div>
+        <div class="timeline-row">
+          <p class="timeline-phase sans">Week 3</p>
+          <div>
+            <p class="timeline-title">Stripe Checkout + success/cancel pages</p>
+            <p class="timeline-desc sans">Build /api/checkout with stock validation. Create success and cancel pages. Test the full purchase flow in Stripe test mode using the test card 4242 4242 4242 4242. Add promo code tests. Verify the redirect back to your site works correctly.</p>
+          </div>
+        </div>
+        <div class="timeline-row">
+          <p class="timeline-phase sans">Week 4</p>
+          <div>
+            <p class="timeline-title">Webhooks + Email + Inventory</p>
+            <p class="timeline-desc sans">Build /api/webhooks/stripe. Test locally with the Stripe CLI (stripe listen --forward-to localhost:3000/api/webhooks/stripe). Implement Resend email sending. Verify stock decrements in Sanity after a test purchase. Deploy to production and register the live webhook URL in the Stripe Dashboard.</p>
+          </div>
+        </div>
+        <div class="timeline-row">
+          <p class="timeline-phase sans">Before launch</p>
+          <div>
+            <p class="timeline-title">Switch to live Stripe keys + final QA</p>
+            <p class="timeline-desc sans">Swap pk_test_ and sk_test_ for live keys in production environment variables. Create real products in Stripe. Create a real promo code. Do a live test purchase with a real card. Verify the confirmation email arrives, stock decrements, and the success page shows correctly.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      <p>Wallens Design — E-Commerce Implementation Plan &nbsp;·&nbsp; Generated <span>May 2026</span></p>
+    </div>
+  </footer>
+
+</body>
+</html>
