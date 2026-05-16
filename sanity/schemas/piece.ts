@@ -69,6 +69,23 @@ export const pieceSchema = defineType({
     }),
 
     defineField({
+      name: "stockQuantity",
+      title: "Stock Quantity",
+      type: "number",
+      description:
+        "How many of this piece are available. Decremented automatically after each purchase. Set to 0 to mark as sold out without changing the status. Leave as 1 for unique one-of-a-kind pieces.",
+      initialValue: 1,
+    }),
+
+    defineField({
+      name: "stripePriceId",
+      title: "Stripe Price ID",
+      type: "string",
+      description:
+        "The Stripe Price ID for this piece (e.g. price_1Abc…). Filled in during Phase 3 Stripe setup — leave empty for now.",
+    }),
+
+    defineField({
       name: "heroImage",
       title: "Hero Image",
       type: "image",

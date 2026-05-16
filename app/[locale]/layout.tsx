@@ -3,6 +3,8 @@ import { locales } from "@/lib/i18n";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import ScrollAnimator from "@/components/ScrollAnimator";
+import CartDrawer from "@/components/CartDrawer";
+import { CartProvider } from "@/context/CartContext";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
@@ -23,11 +25,12 @@ export default async function LocaleLayout({
   }
 
   return (
-    <>
+    <CartProvider>
       <Navbar />
+      <CartDrawer />
       <ScrollAnimator />
       <main className="flex-1">{children}</main>
       <Footer />
-    </>
+    </CartProvider>
   );
 }

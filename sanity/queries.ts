@@ -35,6 +35,10 @@ export interface PieceCard {
   category: PieceCategory;
   status: PieceStatus;
   price?: number;
+  /** How many units are in stock. Undefined means the field hasn't been set yet — treat as 1. */
+  stockQuantity?: number;
+  /** Stripe Price ID — populated in Phase 3. Empty until then. */
+  stripePriceId?: string;
   heroImage: SanityImage;
   featured: boolean;
   year?: number;
@@ -48,6 +52,8 @@ export const allPiecesQuery = groq`
     category,
     status,
     price,
+    stockQuantity,
+    stripePriceId,
     heroImage,
     featured,
     year
@@ -63,6 +69,8 @@ export const featuredPiecesQuery = groq`
     category,
     status,
     price,
+    stockQuantity,
+    stripePriceId,
     heroImage,
     featured,
     year
@@ -78,6 +86,8 @@ export const recentPiecesQuery = groq`
     category,
     status,
     price,
+    stockQuantity,
+    stripePriceId,
     heroImage,
     featured,
     year
@@ -108,6 +118,8 @@ export const pieceBySlugQuery = groq`
     category,
     status,
     price,
+    stockQuantity,
+    stripePriceId,
     heroImage,
     images,
     description,

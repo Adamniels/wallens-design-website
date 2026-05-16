@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import type { Locale } from "@/lib/i18n";
 import { getT, localePath, switchLocalePath } from "@/lib/i18n";
+import CartIcon from "@/components/CartIcon";
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -76,11 +77,16 @@ export default function Navbar() {
           >
             {tr.nav.langToggle}
           </Link>
+
+          {/* Cart icon */}
+          <CartIcon />
         </nav>
 
-        {/* Mobile hamburger */}
+        {/* Mobile: cart icon + hamburger */}
+        <div className="md:hidden flex items-center gap-3">
+          <CartIcon />
         <button
-          className="md:hidden flex flex-col gap-1.5 p-2"
+          className="flex flex-col gap-1.5 p-2"
           onClick={() => setMenuOpen((prev) => !prev)}
           aria-label={menuOpen ? "Close menu" : "Open menu"}
         >
@@ -100,12 +106,13 @@ export default function Navbar() {
             }`}
           />
         </button>
+        </div>
       </div>
 
       {/* Mobile menu */}
       <div
         className={`md:hidden bg-cream border-t border-sand overflow-hidden transition-all duration-500 ${
-          menuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
+          menuOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <nav className="page-container flex flex-col gap-1 py-4">

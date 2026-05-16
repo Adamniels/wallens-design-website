@@ -12,6 +12,7 @@ import { urlFor } from "@/sanity/image";
 import StatusBadge from "@/components/StatusBadge";
 import PortableTextRenderer from "@/components/PortableTextRenderer";
 import PieceGallery from "@/components/PieceGallery";
+import AddToCartButton from "@/components/AddToCartButton";
 import type { Locale } from "@/lib/i18n";
 import { getT, localePath, locales } from "@/lib/i18n";
 
@@ -85,6 +86,24 @@ export default async function PieceDetailPage({
     .fit("crop")
     .blur(50)
     .url();
+
+  // Cart thumbnail — small square, pre-built for passing to client component
+  const cartImageUrl = urlFor(piece.heroImage)
+    .width(200)
+    .height(200)
+    .fit("crop")
+    .auto("format")
+    .url();
+
+  const stock = piece.stockQuantity ?? 1;
+  const canPurchase =
+    piece.status === "available" &&
+    typeof piece.price === "number" &&
+    piece.price > 0 &&
+    stock > 0;
+  const isAvailableButSoldOut =
+    piece.status === "available" && stock === 0;
+  const stockIsLow = canPurchase && stock <= 3;
 
   const hasGallery = piece.images && piece.images.length > 0;
   const hasDimensions =
@@ -262,10 +281,63 @@ export default async function PieceDetailPage({
 
               <div className="w-full h-px bg-gold/30" />
 
-              {piece.status !== "sold" && (
+              {/* ── Purchase panel ─────────────────────────────────── */}
+
+              {/* Available + in stock → Add to Cart */}
+              {canPurchase && (
+                <div className="space-y-3">
+                  {/* Low stock warning */}
+                  {stockIsLow && (
+                    <p className="font-sans text-xs tracking-widest uppercase text-gold">
+                      {tr.piece.stockLow}
+                      {stock === 1
+                        ? locale === "sv" ? " — 1 kvar" : " — 1 left"
+                        : locale === "sv" ? ` — ${stock} kvar` : ` — ${stock} left`}
+                    </p>
+                  )}
+
+                  <AddToCartButton
+                    id={piece._id}
+                    name={title}
+                    price={piece.price!}
+                    currency="SEK"
+                    imageUrl={cartImageUrl}
+                    slug={piece.slug.current}
+                    maxQuantity={stock}
+                    locale={locale as Locale}
+                    variant="detail"
+                  />
+
+                  {/* Secondary inquiry link — some buyers want to ask first */}
+                  <Link
+                    href={`${lp("/contact")}?piece=${encodeURIComponent(title)}`}
+                    className="block w-full text-center font-sans text-xs tracking-widest uppercase text-charcoal/40 hover:text-forest transition-colors duration-300 py-1"
+                  >
+                    {tr.piece.inquireSecondary}
+                  </Link>
+                </div>
+              )}
+
+              {/* Available status but explicitly out of stock */}
+              {isAvailableButSoldOut && (
+                <div className="space-y-3">
+                  <div className="w-full text-center border border-charcoal/15 font-sans text-sm tracking-widest uppercase px-6 py-4 text-charcoal/30">
+                    {tr.piece.soldOut}
+                  </div>
+                  <Link
+                    href={`${lp("/contact")}?piece=${encodeURIComponent(title)}`}
+                    className="block w-full text-center font-sans text-xs tracking-widest uppercase text-charcoal/40 hover:text-forest transition-colors duration-300 py-1"
+                  >
+                    {tr.piece.inquireSecondary}
+                  </Link>
+                </div>
+              )}
+
+              {/* Commission / display → Inquire only */}
+              {(piece.status === "commission" || piece.status === "display") && (
                 <Link
                   href={`${lp("/contact")}?piece=${encodeURIComponent(title)}`}
-                  className="block w-full text-center bg-forest text-cream font-sans text-sm tracking-widest uppercase px-6 py-4 hover:bg-forest-dark transition-colors duration-300"
+                  className="block w-full text-center bg-forest text-cream font-sans text-sm tracking-widest uppercase px-6 py-4 hover:bg-forest-light transition-colors duration-300"
                 >
                   {piece.status === "commission"
                     ? tr.piece.inquireCommission
@@ -273,6 +345,7 @@ export default async function PieceDetailPage({
                 </Link>
               )}
 
+              {/* ── Back to collection ──────────────────────────────── */}
               <Link
                 href={lp("/portfolio")}
                 className="block w-full text-center border border-forest/30 text-forest/60 font-sans text-xs tracking-widest uppercase px-6 py-3 hover:border-forest hover:text-forest transition-all duration-300"

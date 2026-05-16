@@ -519,8 +519,8 @@
         </div>
         <div class="overview-card">
           <p class="card-num sans">Phase 02</p>
-          <p class="card-title">Product Shop</p>
-          <p class="card-desc sans">Shop page, product schema additions, add-to-cart flows</p>
+          <p class="card-title">Collection as Shop</p>
+          <p class="card-desc sans">Portfolio becomes the storefront — available pieces get prices and Add to Cart, others get Inquire</p>
         </div>
         <div class="overview-card">
           <p class="card-num sans">Phase 03</p>
@@ -568,7 +568,7 @@
             <li>CartDrawer UI component</li>
             <li>/api/checkout — creates Stripe session</li>
             <li>/api/webhooks/stripe — listens for events</li>
-            <li>Shop, product detail, success pages</li>
+            <li>Portfolio detail pages gain Add to Cart or Inquire buttons depending on status</li>
           </ul>
         </div>
         <div class="arch-cell">
@@ -607,7 +607,7 @@
             <li>Cart icon added to the Navbar with an animated item-count badge</li>
             <li>Subtotal display and a "Proceed to Checkout" button at the bottom of the drawer</li>
             <li>Quantity controls in the drawer — plus/minus buttons, remove item button</li>
-            <li>Empty cart state with a friendly message and link to the shop</li>
+            <li>Empty cart state with a friendly message and link back to the collection</li>
           </ul>
         </div>
         <div class="content-block">
@@ -642,8 +642,8 @@
   <div class="section">
     <div class="container">
       <p class="phase-label sans">Phase 02</p>
-      <h2>Product Shop Infrastructure</h2>
-      <p class="section-intro sans">Sanity already holds your beautiful product content. We add a handful of fields to the existing schema, create a /en/shop and /sv/shop page, and wire up "Add to Cart" buttons. Pricing lives in Stripe — Sanity only stores the Stripe Price ID as a reference, so you never manage a price in two places.</p>
+      <h2>The Collection is the Shop</h2>
+      <p class="section-intro sans">There is no separate shop page. The existing portfolio is the storefront. We add a few fields to the Sanity schema, then update the portfolio card and detail page to show an "Add to Cart" button for available pieces and an "Inquire" button for everything else — sold, commission, and display pieces. Customers see the full body of work in one place, and can act on whatever is relevant to them.</p>
 
       <div class="content-grid">
         <div class="content-block">
@@ -654,19 +654,19 @@
             <li><strong>currency</strong> (string) — "sek" or "eur"</li>
             <li><strong>stockQuantity</strong> (number) — total units available. Set this manually when you add a product. Decremented automatically after each purchase via webhook.</li>
             <li><strong>inStock</strong> (boolean) — auto-set to false when stockQuantity reaches 0. Used to show "Sold Out" on the product card and disable the cart button.</li>
-            <li><strong>availableForPurchase</strong> (boolean) — a manual override you can flip to hide a product from the shop without deleting it.</li>
+            <li><strong>availableForPurchase</strong> (boolean) — a manual override to completely hide a price and cart button without changing the piece's status. Useful for temporarily pulling something from sale.</li>
           </ul>
         </div>
         <div class="content-block">
-          <h3>New pages</h3>
+          <h3>What changes on existing pages</h3>
           <ul class="item-list">
-            <li><strong>/[locale]/shop</strong> — the main shop grid page. Fetches all products from Sanity where availableForPurchase is true. Uses your existing PortfolioGrid-style layout.</li>
-            <li><strong>/[locale]/shop/[slug]</strong> — individual product detail page with full imagery, description in Portable Text, price, stock status, and "Add to Cart" button.</li>
-            <li><strong>/[locale]/checkout/success</strong> — post-payment confirmation page shown after Stripe redirects the customer back. Displays order summary from Stripe session params.</li>
-            <li><strong>/[locale]/checkout/cancel</strong> — shown if the customer cancels on the Stripe page. Reassures them their cart is still intact and links back to the shop.</li>
+            <li><strong>/[locale]/portfolio</strong> — no structural changes. The grid gains a small price display and a status-aware button on each card. Available pieces show the price; others show their status badge as before.</li>
+            <li><strong>/[locale]/portfolio/[slug]</strong> — the detail page gains a purchase panel: price, stock count, and an "Add to Cart" button for available pieces. All other statuses show an "Inquire about this piece" button linking to the contact page with the piece pre-filled.</li>
+            <li><strong>/[locale]/checkout/success</strong> — new page, shown after Stripe redirects the customer back. Displays the order summary.</li>
+            <li><strong>/[locale]/checkout/cancel</strong> — new page, shown if the customer cancels on the Stripe page. Links back to the collection.</li>
           </ul>
           <div class="callout" style="margin-top: 24px;">
-            <p><strong>Nav addition:</strong> A "Shop" link will be added to the Navbar's navLinks array in both locales — "Shop" in English, "Butik" in Swedish.</p>
+            <p><strong>No new nav links needed.</strong> The existing "Collection" link already leads people to the right place. The cart icon in the navbar is the only commerce addition to the navigation.</p>
           </div>
         </div>
       </div>
@@ -830,7 +830,7 @@
             <li><strong>Customer proceeds to checkout</strong> — the /api/checkout route reads Sanity stock. If any item has stockQuantity less than the requested quantity, the request fails with a friendly error before Stripe is ever called</li>
             <li><strong>Payment completes</strong> — Stripe webhook fires. Handler decrements stockQuantity by quantity purchased using the Sanity PATCH API</li>
             <li><strong>Stock reaches zero</strong> — webhook also sets inStock: false on the product document</li>
-            <li><strong>Product card updates</strong> — next time the shop page renders, inStock: false causes the card to show "Sold Out" and disable "Add to Cart"</li>
+            <li><strong>Portfolio card updates</strong> — next time the collection page renders, inStock: false causes the card to show "Sold Out" and disable "Add to Cart"</li>
           </ul>
         </div>
         <div class="content-block">
@@ -876,8 +876,8 @@
   │   ├── <span class="new">checkout/route.ts</span>        <span class="label label-new">NEW</span>
   │   └── <span class="new">webhooks/stripe/route.ts</span> <span class="label label-new">NEW</span>
   └── <span class="dir">[locale]/</span>
-      ├── <span class="new">shop/page.tsx</span>             <span class="label label-new">NEW</span>
-      ├── <span class="new">shop/[slug]/page.tsx</span>      <span class="label label-new">NEW</span>
+      ├── <span class="mod">portfolio/page.tsx</span>        <span class="label label-mod">MOD</span>  ← price + status-aware button on cards
+      ├── <span class="mod">portfolio/[slug]/page.tsx</span> <span class="label label-mod">MOD</span>  ← Add to Cart or Inquire panel
       ├── <span class="new">checkout/success/page.tsx</span> <span class="label label-new">NEW</span>
       └── <span class="new">checkout/cancel/page.tsx</span>  <span class="label label-new">NEW</span>
 
@@ -886,7 +886,7 @@
   ├── <span class="new">CartIcon.tsx</span>                 <span class="label label-new">NEW</span>
   ├── <span class="new">ProductCard.tsx</span>              <span class="label label-new">NEW</span>
   ├── <span class="new">AddToCartButton.tsx</span>          <span class="label label-new">NEW</span>
-  ├── <span class="mod">Navbar.tsx</span>                   <span class="label label-mod">MOD</span>  ← add Shop link + CartIcon
+  ├── <span class="mod">Navbar.tsx</span>                   <span class="label label-mod">MOD</span>  ← add CartIcon (no new nav links needed)
   └── <span class="mod">Footer.tsx</span>                   <span class="label label-mod">MOD</span>  ← minor tweaks
 
 <span class="dir">context/</span>
@@ -896,7 +896,7 @@
   ├── <span class="new">stripe.ts</span>                    <span class="label label-new">NEW</span>  ← Stripe client singleton
   ├── <span class="new">resend.ts</span>                    <span class="label label-new">NEW</span>  ← Resend client singleton
   ├── <span class="new">cartTypes.ts</span>                 <span class="label label-new">NEW</span>
-  └── <span class="mod">i18n.ts</span>                      <span class="label label-mod">MOD</span>  ← add shop/butik nav strings
+  └── <span class="mod">i18n.ts</span>                      <span class="label label-mod">MOD</span>  ← add cart and inquiry strings
 
 <span class="dir">emails/</span>
   └── <span class="new">OrderConfirmation.tsx</span>        <span class="label label-new">NEW</span>  ← React Email template
@@ -1013,8 +1013,8 @@ npm install stripe @stripe/stripe-js resend @react-email/components
         <div class="timeline-row">
           <p class="timeline-phase sans">Week 2</p>
           <div>
-            <p class="timeline-title">Shop pages + Add to Cart</p>
-            <p class="timeline-desc sans">Build the /shop listing page and /shop/[slug] product detail page. Wire up AddToCartButton to CartContext. Add Shop to the nav. By the end of this phase the full browse-to-cart flow works end to end in the UI.</p>
+            <p class="timeline-title">Collection as Shop — Add to Cart &amp; Inquire</p>
+            <p class="timeline-desc sans">Add the Stripe and stock fields to the Sanity schema. Update the portfolio card to show a price for available pieces. Update the portfolio detail page to show an Add to Cart button for available pieces and an Inquire button for everything else. By the end of this phase the full browse-to-cart flow works end to end in the UI, with no separate shop page.</p>
           </div>
         </div>
         <div class="timeline-row">
